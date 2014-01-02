@@ -139,7 +139,7 @@ module SSHKit
     end
 
     def should_map?
-      !command.match /\s/
+      !command.match(/\s/) || options[:should_map]
     end
 
     def within(&block)
@@ -202,7 +202,12 @@ module SSHKit
     end
 
     def to_s
-      [SSHKit.config.command_map[command.to_sym], *Array(args)].join(' ')
+      case command
+      when Symbol
+        [SSHKit.config.command_map[command], *Array(args)].join(' ')
+      else
+        command.to_s
+      end
     end
 
     private

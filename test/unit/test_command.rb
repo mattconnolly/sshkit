@@ -65,6 +65,11 @@ module SSHKit
       assert_equal "cd /opt/sites && /usr/bin/env ls -l", c.to_command
     end
 
+    def test_working_in_a_given_directory_not_mapped
+      c = Command.new('ls -l', in: "/opt/sites", should_map:true)
+      assert_equal "cd /opt/sites && /usr/bin/env ls -l", c.to_command
+    end
+
     def test_working_in_a_given_directory_with_env
       c = Command.new(:ls, '-l', in: "/opt/sites", env: {a: :b})
       assert_equal "cd /opt/sites && ( A=b /usr/bin/env ls -l )", c.to_command
